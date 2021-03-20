@@ -1,6 +1,6 @@
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, HideField, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 
 export enum AdminRole {
   EDITOR = 'EDITOR',
@@ -22,7 +22,7 @@ export class Admin {
   @Prop({ unique: true })
   email: string;
 
-  @Field()
+  @HideField()
   @Prop()
   password: string;
 
