@@ -17,16 +17,16 @@ export class AuthGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const roles = this.reflector.get<AdminRole[]>('roles', context.getHandler()) ?? [];
+    const role = this.reflector.get<AdminRole>('role', context.getHandler());
     const ctx = GqlExecutionContext.create(context).getContext();
     if (!ctx.headers.authorization) {
       return false;
     }
-    ctx.user = await this.validateToken(ctx.headers.authorization, roles);
+    ctx.user = await this.validateToken(ctx.headers.authorization, role);
     return true;
   }
 
-  async validateToken(auth: string, roles: AdminRole[]) {
+  async validateToken(auth: string, role: AdminRole) {
     if (auth.split(' ')[0] !== 'Bearer') {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const user: Admin = jwt.verify(token, SECRET_KEY);
-      if (roles.length > 0 && !roles.includes(user.role)) {
+      if (role && role !== user.role) {
         throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
       }
       return user;
@@ -46,6 +46,6 @@ export class AuthGuard implements CanActivate {
   }
 }
 
-export function Authorized(roles?: AdminRole[]) {
-  return applyDecorators(SetMetadata('roles', roles), UseGuards(AuthGuard));
+export function Authorized(role?: AdminRole) {
+  return applyDecorators(SetMetadata('role', role), UseGuards(AuthGuard));
 }
