@@ -13,6 +13,13 @@ export class StoryFilter {
 }
 
 @InputType()
+export class StoryFilterForAdmin extends StoryFilter {
+  @Field(() => StoryState)
+  @Prop({ type: StoryState })
+  state: StoryState = StoryState.PENDING;
+}
+
+@InputType()
 export class StoryInput {
   @Field(() => String)
   @Prop()
