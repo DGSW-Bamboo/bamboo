@@ -15,10 +15,7 @@
           "options": {
             "outputPath": "dist/apps/apollo-server",
             "main": "apps/apollo-server/src/main.ts",
-            "tsConfig": "apps/apollo-server/tsconfig.app.json",
-            "assets": [
-              "apps/apollo-server/src/assets"
-            ]
+            "tsConfig": "apps/apollo-server/tsconfig.app.json"
           },
           "configurations": {
             "production": {

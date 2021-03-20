@@ -1,0 +1,6 @@
+export enum StoryState {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  CENSORED = "CENSORED"
+}
