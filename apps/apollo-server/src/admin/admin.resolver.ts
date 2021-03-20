@@ -1,6 +1,8 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AdminService } from './admin.service';
-import { LoginInput } from './admin.input';
+import { LoginInput, RegisterInput } from './admin.input';
+import { Admin, AdminRole } from './admin.model';
+import { Authorized } from '../auth/auth.guard';
 
 @Resolver()
 export class AdminResolver {
@@ -9,9 +11,13 @@ export class AdminResolver {
   ) {}
 
   @Mutation(() => String)
-  async login(@Args('input') input: LoginInput) {
-    const admin = await this.adminService.login(input);
+  login(@Args('input') input: LoginInput) {
+    return this.adminService.login(input);
+  }
 
-    return this.adminService.createToken(admin);
+  @Authorized(AdminRole.SUPERVISOR)
+  @Mutation(() => Admin)
+  register(@Args('input') input: RegisterInput) {
+    return this.adminService.register(input);
   }
 }
