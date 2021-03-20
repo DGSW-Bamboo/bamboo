@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { StoryFilter, StoryInput } from './story.input';
+import { StoryFilter, StoryFilterForAdmin, StoryInput } from './story.input';
 import { Story, StoryDocument } from './story.model';
 import { StoryState } from './story.type';
 
@@ -23,5 +23,10 @@ export class StoryService {
 
   createStory(input: StoryInput) {
     return this.storyModel.create(input);
+  }
+
+  getStoriesByFilter(filter: StoryFilterForAdmin) {
+    const { state, offset, limit } = filter;
+    return this.storyModel.find({ state }).skip(offset).limit(limit).exec();
   }
 }

@@ -25,7 +25,7 @@ export class AdminService {
     return found;
   }
 
-  createToken({ email, name, _id }: Admin) {
-    return jwt.sign({ email, name, _id }, SECRET_KEY);
+  createToken({ email, name, _id, role }: Admin) {
+    return jwt.sign({ email, name, _id, role }, SECRET_KEY);
   }
 }

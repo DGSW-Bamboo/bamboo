@@ -1,6 +1,16 @@
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+
+export enum AdminRole {
+  EDITOR = 'EDITOR',
+  SUPERVISOR = 'SUPERVISOR'
+}
+
+registerEnumType(AdminRole, {
+  name: 'AdminRole',
+  description: "어드민 권한 종류"
+})
 
 @ObjectType()
 @Schema()
@@ -19,6 +29,10 @@ export class Admin {
   @Field()
   @Prop()
   name: string;
+
+  @Field(() => AdminRole)
+  @Prop({ type: AdminRole })
+  role: AdminRole;
 }
 
 export type AdminDocument = Admin & Document;
