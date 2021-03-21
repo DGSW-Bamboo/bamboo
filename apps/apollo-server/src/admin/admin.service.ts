@@ -1,10 +1,10 @@
+import { comparePassword, createJwtToken, hashPassword } from '@bamboo/utils';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Admin, AdminDocument } from './admin.model';
+
 import { LoginInput, RegisterInput } from './admin.input';
-import * as jwt from 'jsonwebtoken';
-import { SECRET_KEY } from '../constants';
+import { Admin, AdminDocument } from './admin.model';
 
 @Injectable()
 export class AdminService {
@@ -15,18 +15,14 @@ export class AdminService {
 
   async login({ email, password }: LoginInput) {
     const found = await this.adminModel.findOne({ email });
-    if (!found || found.password !== password) {
+    if (!found || !comparePassword({ plainTextPassword: password, hashedPassword: found.password })) {
       throw new HttpException('Login Error', HttpStatus.UNAUTHORIZED)
     }
 
-    return createToken(found);
+    return createJwtToken(found);
   }
 
   register(newAdmin: RegisterInput) {
-    return this.adminModel.create(newAdmin);
+    return this.adminModel.create({...newAdmin, password: hashPassword(newAdmin.password)});
   }
-}
-
-function createToken({ email, name, _id, role }: Admin) {
-  return jwt.sign({ email, name, _id, role }, SECRET_KEY);
 }
