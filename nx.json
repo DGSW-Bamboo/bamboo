@@ -15,5 +15,5 @@
       "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
     }
   },
-  "projects": { "apollo-server": { "tags": [] } }
+  "projects": { "apollo-server": { "tags": [] }, "utils": { "tags": [] } }
 }

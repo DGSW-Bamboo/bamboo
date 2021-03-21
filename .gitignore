@@ -39,4 +39,4 @@ testem.log
 Thumbs.db
 
 apps/apollo-server/src/schema.gql
-apps/apollo-server/src/constants.ts
+libs/utils/src/lib/constants.ts

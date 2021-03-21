@@ -1,11 +1,11 @@
+import { MONGO_URL } from '@bamboo/utils';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 
-import { MONGO_URL } from './constants';
-import { StoryModule } from './story/story.module';
 import { AdminModule } from './admin/admin.module';
+import { StoryModule } from './story/story.module';
 
 @Module({
   imports: [

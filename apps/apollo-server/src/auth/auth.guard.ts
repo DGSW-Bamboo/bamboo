@@ -1,16 +1,19 @@
+import { SECRET_KEY } from '@bamboo/utils';
 import {
-  Injectable,
+  applyDecorators,
   CanActivate,
   ExecutionContext,
   HttpException,
-  HttpStatus, UseGuards, SetMetadata
+  HttpStatus,
+  Injectable,
+  SetMetadata,
+  UseGuards,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import * as jwt from 'jsonwebtoken';
-import { applyDecorators } from '@nestjs/common';
-import { SECRET_KEY } from '../constants';
+
 import { Admin, AdminRole } from '../admin/admin.model';
-import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
