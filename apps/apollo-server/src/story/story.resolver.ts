@@ -1,9 +1,10 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { Authorized } from '../auth/auth.guard';
-import { StoryFilter, StoryFilterForAdmin, StoryInput } from './story.input';
+import { ChangeStoryStateInput, newStoryInput, StoryFilter, StoryFilterForAdmin } from './story.input';
 import { Story } from './story.model';
 import { StoryService } from './story.service';
+import { StoryState } from './story.type';
 
 @Resolver()
 export class StoryResolver {
@@ -15,7 +16,7 @@ export class StoryResolver {
   getAllStories(
     @Args('filter', { type: () => StoryFilter, nullable: true }) filter: StoryFilter,
   ) {
-    return this.storyService.getAllStories(filter);
+    return this.storyService.getStoriesByFilter(filter);
   }
 
   @Query(() => Story)
@@ -27,7 +28,7 @@ export class StoryResolver {
 
   @Mutation(() => Story)
   createStory(
-    @Args('newStory') newStory: StoryInput,
+    @Args('newStory') newStory: newStoryInput,
   ) {
     return this.storyService.createStory(newStory);
   }
@@ -37,7 +38,23 @@ export class StoryResolver {
   getStoriesForAdmin(
     @Args('filter', { type: () => StoryFilterForAdmin }) filter: StoryFilterForAdmin
   ) {
-    return this.storyService.getStoriesByFilter(filter);
+    return this.storyService.getStoriesByFilterForAdmin(filter);
+  }
+
+  @Authorized()
+  @Mutation(() => Story)
+  approveStoryById(
+    @Args('input', { type: () => ChangeStoryStateInput}) input: ChangeStoryStateInput
+  ) {
+    return this.storyService.changePendingStoryStateById(input.id, StoryState.APPROVED);
+  }
+
+  @Authorized()
+  @Mutation(() => Story)
+  rejectStoryById(
+    @Args('input', { type: () => ChangeStoryStateInput}) input: ChangeStoryStateInput
+  ) {
+    return this.storyService.changePendingStoryStateById(input.id, StoryState.REJECTED);
   }
 
 }
