@@ -1,7 +1,8 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, ID, InputType, Int } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 
 import { StoryState } from './story.type';
+import { Story, StorySchema } from './story.model';
 
 @InputType()
 export class StoryFilter {
@@ -20,7 +21,7 @@ export class StoryFilterForAdmin extends StoryFilter {
 }
 
 @InputType()
-export class StoryInput {
+export class newStoryInput {
   @Field(() => String)
   @Prop()
   content: string;
@@ -32,4 +33,11 @@ export class StoryInput {
   @Field(() => Date)
   @Prop({ type: Date })
   createdAt: Date = new Date();
+}
+
+@InputType()
+export class ChangeStoryStateInput {
+  @Field(() => ID)
+  @Prop({ type: ID })
+  id: Story['_id'];
 }
