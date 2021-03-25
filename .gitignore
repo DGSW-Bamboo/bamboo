@@ -40,3 +40,4 @@ Thumbs.db
 
 apps/apollo-server/src/schema.gql
 libs/utils/src/lib/constants.ts
+apps/web/src/config/config.json
