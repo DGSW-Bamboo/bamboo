@@ -7,14 +7,16 @@ import { WidthRatio } from './StoryCard.type';
 interface IStoryCard {
   size: WidthRatio;
   borderColor?: string;
+  children: React.ReactNode;
 }
 
 const StoryCard = ({
   size,
   borderColor = 'rgb(225, 228, 232)',
+  children,
 }: IStoryCard) => {
-  let cardSize = '';
-  let padding = 0;
+  let cardSize: string;
+  let padding: number;
 
   switch (size) {
     case (size = 'XS'):
@@ -39,7 +41,7 @@ const StoryCard = ({
       borderRadius={4}
       p={padding}
     >
-      <div>sad</div>
+      {children}
     </BorderBox>
   );
 };
