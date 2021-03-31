@@ -35,6 +35,9 @@
     "web-e2e": {
       "tags": [],
       "implicitDependencies": ["web"]
+    },
+    "admin-web": {
+      "tags": []
     }
   }
 }
