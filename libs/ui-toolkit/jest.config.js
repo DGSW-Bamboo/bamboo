@@ -1,9 +1,9 @@
 module.exports = {
-  displayName: 'web-ui',
+  displayName: 'ui-toolkit',
   preset: '../../jest.preset.js',
   transform: {
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/web-ui',
+  coverageDirectory: '../../coverage/libs/ui-toolkit',
 };

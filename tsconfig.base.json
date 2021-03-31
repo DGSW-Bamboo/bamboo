@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@bamboo/utils": ["libs/utils/src/index.ts"],
-      "@bamboo/web-ui": ["libs/web-ui/src/index.ts"]
+      "@bamboo/ui-toolkit": ["libs/ui-toolkit/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

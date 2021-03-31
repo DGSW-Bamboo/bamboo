@@ -3,6 +3,6 @@ module.exports = {
     '<rootDir>/apps/apollo-server',
     '<rootDir>/libs/auth',
     '<rootDir>/apps/web',
-    '<rootDir>/libs/web-ui',
+    '<rootDir>/libs/ui-toolkit',
   ],
 };
