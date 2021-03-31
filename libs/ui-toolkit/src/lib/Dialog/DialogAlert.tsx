@@ -1,81 +1,56 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import {
-  Box,
-  Button,
-  ButtonDanger,
-  ButtonPrimary,
-  Dialog,
-  Text,
-} from '@primer/components';
-import { DialogType } from './DialogAlert.type';
-import { color } from 'styled-system';
+import React, { useCallback } from 'react';
+import { Box, Button, Dialog, Text } from '@primer/components';
 
-interface IDialog {
+type Props = {
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  focusRef: React.RefObject<HTMLElement>;
+  handleDialog: () => void;
   header: string;
-  type: DialogType;
   handleClick?: (arg?: any) => void;
-}
+  buttonText: string;
+  buttonFontColor?: string;
+  content?: string;
+  dialogHeaderColor?: string;
+  buttonSize?: string;
+};
 
 const DialogAlert = ({
   isOpen,
-  setIsOpen,
-  focusRef,
+  handleDialog,
   header,
-  type = 'normal',
   handleClick,
-}: IDialog) => {
-  let dialogColor = '#000';
+  buttonText,
+  buttonFontColor,
+  content,
+  buttonSize = '100%',
+  dialogHeaderColor,
+}: Props) => {
+  const handleClickButton = useCallback(() => {
+    handleClick();
+  }, [handleClick]);
 
-  switch (type) {
-    case (type = 'normal'):
-      dialogColor = '#000';
-      break;
-    case (type = 'reject'):
-      dialogColor = '#cb2431';
-      break;
-    case (type = 'accept'):
-      dialogColor = '#22863a';
-      break;
-  }
   return (
-    <>
-      <span />
-      <Dialog
-        returnFocusRef={focusRef}
-        isOpen={isOpen}
-        onDismiss={() => setIsOpen(false)}
-        aria-labelledby="header-id"
-      >
-        <Dialog.Header id="header-id">
-          <Text
-            fontFamily="sans-serif"
-            color={dialogColor}
-            fontWeight={600}
-            fontSize={14}
-          >
-            {header}
-          </Text>
-        </Dialog.Header>
-        <Box p={3}>
-          {type === 'accept' ? (
-            <ButtonPrimary size={'100%'} onClick={handleClick}>
-              승인하겠습니다.
-            </ButtonPrimary>
-          ) : type === 'reject' ? (
-            <ButtonDanger size={'100%'} onClick={handleClick}>
-              거절하겠습니다.
-            </ButtonDanger>
-          ) : (
-            <Button size={'100%'} onClick={handleClick}>
-              확인했습니다.
-            </Button>
-          )}
-        </Box>
-      </Dialog>
-    </>
+    <Dialog
+      isOpen={isOpen}
+      onDismiss={handleDialog}
+      aria-labelledby="header-id"
+    >
+      <Dialog.Header id="header-id">
+        <Text
+          fontFamily="sans-serif"
+          color={dialogHeaderColor}
+          fontWeight={600}
+          fontSize={14}
+        >
+          {header}
+        </Text>
+      </Dialog.Header>
+      <Box p={3}>
+        <Box>{content}</Box>
+        <Button size={buttonSize} onClick={handleClickButton}>
+          <Text color={buttonFontColor}>{buttonText}</Text>
+        </Button>
+      </Box>
+    </Dialog>
   );
 };
 
