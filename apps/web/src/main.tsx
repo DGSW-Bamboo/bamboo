@@ -6,14 +6,17 @@ import { BrowserRouter } from 'react-router-dom';
 import { client } from './client';
 import { RecoilRoot } from 'recoil';
 import GlobalStyle from './style/GlobalStyle';
+import { ThemeProvider } from '@primer/components';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <RecoilRoot>
         <ApolloProvider client={client}>
-          <GlobalStyle />
-          <App />
+          <ThemeProvider>
+            <GlobalStyle />
+            <App />
+          </ThemeProvider>
         </ApolloProvider>
       </RecoilRoot>
     </BrowserRouter>

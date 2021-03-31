@@ -1,1 +1,1 @@
-export type WidthRatio = 'XS' | 'M' | 'XL';
+export type WidthRatio = 'xs' | 'm' | 'xl';

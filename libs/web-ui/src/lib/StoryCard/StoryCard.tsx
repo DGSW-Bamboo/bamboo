@@ -1,33 +1,54 @@
-import React from 'react';
-import { BorderBox } from '@primer/components';
+import React, { useState } from 'react';
+import {
+  BorderBox,
+  ButtonDanger,
+  ButtonGroup,
+  ButtonPrimary,
+  Text,
+} from '@primer/components';
 import { WidthRatio } from './StoryCard.type';
+import styled from 'styled-components';
+import DialogAlert from '../Dialog';
 
-/**어드민, 메인, 글쓰기 페이지에서 쓰임 */
+/**어드민, 메인에서 보일 스토리 카드 */
 
 interface IStoryCard {
   size: WidthRatio;
-  borderColor?: string;
-  children: React.ReactNode;
+  hashTag: string;
+  content: string;
+  isAdmin: boolean;
+  handleReject?: () => void;
+  handleAccept?: () => void;
 }
 
 const StoryCard = ({
   size,
-  borderColor = 'rgb(225, 228, 232)',
-  children,
+  hashTag,
+  content,
+  isAdmin,
+  handleReject,
+  handleAccept,
 }: IStoryCard) => {
+  const [isRejctOpen, setIsRejectOpen] = useState(false);
+  const [isAcceptOpen, setIsAcceptOpen] = useState(false);
+
+  const rejcetFocusRef = React.useRef(null);
+  const acceptFocusRef = React.useRef(null);
+  const borderColor = 'rgb(225, 228, 232)';
+
   let cardSize: string;
   let padding: number;
 
   switch (size) {
-    case (size = 'XS'):
+    case (size = 'xs'):
       cardSize = '285px';
       padding = 1;
       break;
-    case (size = 'M'):
+    case (size = 'm'):
       cardSize = '767px';
       padding = 2;
       break;
-    case (size = 'XL'):
+    case (size = 'xl'):
       cardSize = '1024px';
       padding = 3;
       break;
@@ -41,9 +62,57 @@ const StoryCard = ({
       borderRadius={4}
       p={padding}
     >
-      {children}
+      <Text fontFamily="sans-serif" fontWeight={600} fontSize={16}>
+        {hashTag}
+      </Text>
+      <Content>{content}</Content>
+      {isAdmin && (
+        <>
+          <ButtonGroup my={1}>
+            <ButtonDanger
+              ref={rejcetFocusRef}
+              onClick={() => setIsRejectOpen(true)}
+            >
+              게시글 거절하기
+            </ButtonDanger>
+            <ButtonPrimary
+              ref={acceptFocusRef}
+              onClick={() => setIsAcceptOpen(true)}
+            >
+              게시글 승인하기
+            </ButtonPrimary>
+          </ButtonGroup>
+
+          {isRejctOpen && (
+            <DialogAlert
+              isOpen={isRejctOpen}
+              setIsOpen={setIsRejectOpen}
+              focusRef={rejcetFocusRef}
+              header="게시글을 거절하시겠습니까?"
+              type="reject"
+              handleClick={handleReject}
+            />
+          )}
+          {isAcceptOpen && (
+            <DialogAlert
+              isOpen={isAcceptOpen}
+              setIsOpen={setIsAcceptOpen}
+              focusRef={acceptFocusRef}
+              header="게시글을 승인하시겠습니까?"
+              type="accept"
+              handleClick={handleAccept}
+            />
+          )}
+        </>
+      )}
     </BorderBox>
   );
 };
+
+const Content = styled.div`
+  margin: 10px 0px;
+  font-size: 14px;
+  color: #586069;
+`;
 
 export default StoryCard;
