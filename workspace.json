@@ -18,6 +18,12 @@
         "style": "styled-components",
         "linter": "eslint"
       }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
     }
   },
   "projects": {
@@ -185,6 +191,49 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/web-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "admin-web": {
+      "root": "apps/admin-web",
+      "sourceRoot": "apps/admin-web",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/admin-web",
+            "outputPath": "dist/apps/admin-web"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "admin-web:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "admin-web:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "admin-web:build:production"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/admin-web/**/*.{ts,tsx,js,jsx}"]
           }
         }
       }
