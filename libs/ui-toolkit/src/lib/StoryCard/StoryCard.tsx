@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   BorderBox,
   ButtonDanger,
@@ -36,23 +36,27 @@ const StoryCard = ({
   const acceptFocusRef = React.useRef(null);
   const borderColor = 'rgb(225, 228, 232)';
 
-  let cardSize: string;
-  let padding: number;
+  const cardSize = useMemo(() => {
+    switch (size) {
+      case 'xs':
+        return '285px';
+      case 'm':
+        return '767px';
+      case 'xl':
+        return '1024px';
+    }
+  }, [size]);
 
-  switch (size) {
-    case (size = 'xs'):
-      cardSize = '285px';
-      padding = 1;
-      break;
-    case (size = 'm'):
-      cardSize = '767px';
-      padding = 2;
-      break;
-    case (size = 'xl'):
-      cardSize = '1024px';
-      padding = 3;
-      break;
-  }
+  const padding = useMemo(() => {
+    switch (size) {
+      case 'xs':
+        return 1;
+      case 'm':
+        return 2;
+      case 'xl':
+        return 3;
+    }
+  }, [size]);
 
   return (
     <BorderBox
