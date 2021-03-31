@@ -12,14 +12,14 @@ import DialogAlert from '../Dialog';
 
 /**어드민, 메인에서 보일 스토리 카드 */
 
-interface IStoryCard {
+type Props = {
   size: WidthRatio;
   hashTag: string;
   content: string;
   isAdmin: boolean;
   handleReject?: () => void;
   handleAccept?: () => void;
-}
+};
 
 const StoryCard = ({
   size,
@@ -28,12 +28,10 @@ const StoryCard = ({
   isAdmin,
   handleReject,
   handleAccept,
-}: IStoryCard) => {
+}: Props) => {
   const [isRejctOpen, setIsRejectOpen] = useState(false);
   const [isAcceptOpen, setIsAcceptOpen] = useState(false);
 
-  const rejcetFocusRef = React.useRef(null);
-  const acceptFocusRef = React.useRef(null);
   const borderColor = 'rgb(225, 228, 232)';
 
   const cardSize = useMemo(() => {
@@ -58,6 +56,45 @@ const StoryCard = ({
     }
   }, [size]);
 
+  const handleRejectOpen = useCallback(() => {
+    setIsRejectOpen((prevState) => !prevState);
+  }, []);
+
+  const handleAcceptOpen = useCallback(() => {
+    setIsAcceptOpen((prevState) => !prevState);
+  }, []);
+
+  const dialogAlertProps = useMemo(
+    () =>
+      isRejctOpen
+        ? {
+            isOpen: isRejctOpen,
+            handleDialog: handleRejectOpen,
+            header: '게시글을 거절하시겠습니까?',
+            handleClick: handleReject,
+            buttonText: '거절하겠습니다.',
+            buttonFontColor: '#cb2431',
+            dialogHeaderColor: '#cb2431',
+          }
+        : {
+            isOpen: isAcceptOpen,
+            handleDialog: handleAcceptOpen,
+            header: '게시글을 승인하시겠습니까?',
+            handleClick: handleAccept,
+            buttonText: '승인하겠습니다.',
+            buttonFontColor: '#22863a',
+            dialogHeaderColor: '#22863a',
+          },
+    [
+      handleAccept,
+      handleAcceptOpen,
+      handleReject,
+      handleRejectOpen,
+      isAcceptOpen,
+      isRejctOpen,
+    ]
+  );
+
   return (
     <BorderBox
       width={'100%'}
@@ -73,39 +110,16 @@ const StoryCard = ({
       {isAdmin && (
         <>
           <ButtonGroup my={1}>
-            <ButtonDanger
-              ref={rejcetFocusRef}
-              onClick={() => setIsRejectOpen(true)}
-            >
+            <ButtonDanger onClick={handleRejectOpen}>
               게시글 거절하기
             </ButtonDanger>
-            <ButtonPrimary
-              ref={acceptFocusRef}
-              onClick={() => setIsAcceptOpen(true)}
-            >
+            <ButtonPrimary onClick={handleAcceptOpen}>
               게시글 승인하기
             </ButtonPrimary>
           </ButtonGroup>
 
-          {isRejctOpen && (
-            <DialogAlert
-              isOpen={isRejctOpen}
-              setIsOpen={setIsRejectOpen}
-              focusRef={rejcetFocusRef}
-              header="게시글을 거절하시겠습니까?"
-              type="reject"
-              handleClick={handleReject}
-            />
-          )}
-          {isAcceptOpen && (
-            <DialogAlert
-              isOpen={isAcceptOpen}
-              setIsOpen={setIsAcceptOpen}
-              focusRef={acceptFocusRef}
-              header="게시글을 승인하시겠습니까?"
-              type="accept"
-              handleClick={handleAccept}
-            />
+          {(isRejctOpen || isAcceptOpen) && (
+            <DialogAlert {...dialogAlertProps} />
           )}
         </>
       )}
