@@ -16,10 +16,21 @@
     }
   },
   "projects": {
-    "apollo-server": { "tags": [] },
-    "utils": { "tags": [] },
-    "web": { "tags": [] },
-    "web-e2e": { "tags": [], "implicitDependencies": ["web"] },
-    "ui-toolkit": { "tags": [] }
+    "apollo-server": {
+      "tags": []
+    },
+    "utils": {
+      "tags": []
+    },
+    "web": {
+      "tags": []
+    },
+    "web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["web"]
+    },
+    "admin-web": {
+      "tags": []
+    }
   }
 }
