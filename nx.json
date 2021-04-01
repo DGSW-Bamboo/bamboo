@@ -29,6 +29,10 @@
       "tags": [],
       "implicitDependencies": ["web"]
     },
+
+    "ui-toolkit": {
+      "tags": []
+    },
     "admin-web": {
       "tags": []
     }
