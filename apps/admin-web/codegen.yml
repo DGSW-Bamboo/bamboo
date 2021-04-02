@@ -1,0 +1,33 @@
+schema:
+  - http://localhost:4200/graphql:
+      headers:
+        X-Introspection: 'true'
+documents:
+  - 'apps/admin-web/**/*.fragment.{ts,tsx}'
+  - 'apps/admin-web/**/*.query.{ts,tsx}'
+  - 'apps/admin-web/**/*.mutation.{ts,tsx}'
+generates:
+  apps/admin-web/type/graphql-types.d.ts:
+    hooks:
+      afterOneFileWrite:
+        - git add apps/admin-web/src/type/graphql-types.d.ts
+    plugins:
+      - typescript
+    config:
+      immutableTypes: true
+      namingConvention: keep
+  apps/admin-web/:
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: type/graphql-types.d.ts
+      extension: .generated.tsx
+    config:
+      declarationKind: type
+      immutableTypes: true
+      withHOC: false
+      withComponent: true
+      withHooks: true
+      namingConvention: 'keep'
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo

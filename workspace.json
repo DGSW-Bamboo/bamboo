@@ -235,6 +235,12 @@
           "options": {
             "lintFilePatterns": ["apps/admin-web/**/*.{ts,tsx,js,jsx}"]
           }
+        },
+        "codegen": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn graphql-codegen --config apps/admin-web/codegen.yml"
+          }
         }
       }
     }
