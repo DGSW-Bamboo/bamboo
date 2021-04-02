@@ -15,6 +15,10 @@ import * as jwt from 'jsonwebtoken';
 
 import { Admin, AdminRole } from '../admin/admin.model';
 
+function isAdmin(arg: any): arg is Admin {
+  return arg.role !== undefined;
+}
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
@@ -37,8 +41,8 @@ export class AuthGuard implements CanActivate {
 
 
     try {
-      const user: Admin = jwt.verify(token, SECRET_KEY);
-      if (role && role !== user.role) {
+      const user = jwt.verify(token, SECRET_KEY);
+      if (isAdmin(user) && role && role !== user.role) {
         throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
       }
       return user;
