@@ -3,7 +3,6 @@
   "compilerOptions": {
     "jsx": "react",
     "allowJs": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
@@ -11,7 +10,7 @@
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.app.json"
+      "path": "./tsconfig.lib.json"
     },
     {
       "path": "./tsconfig.spec.json"

@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bamboo/utils": ["libs/utils/src/index.ts"]
+      "@bamboo/utils": ["libs/utils/src/index.ts"],
+      "@bamboo/ui-toolkit": ["libs/ui-toolkit/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
