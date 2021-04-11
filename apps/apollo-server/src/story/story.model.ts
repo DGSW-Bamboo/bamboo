@@ -21,6 +21,10 @@ export class Story {
 
   @Field(() => String)
   @Prop()
+  title: string;
+
+  @Field(() => String)
+  @Prop()
   content: string;
 
   @Field(() => StoryState, { defaultValue: StoryState.PENDING })
