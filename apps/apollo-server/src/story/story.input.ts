@@ -22,6 +22,11 @@ export class StoryFilterForAdmin extends StoryFilter {
 
 @InputType()
 export class newStoryInput {
+
+  @Field(() => String)
+  @Prop()
+  title: string;
+
   @Field(() => String)
   @Prop()
   content: string;
