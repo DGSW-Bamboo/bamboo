@@ -9,19 +9,11 @@
         "linter": "eslint",
         "babel": true
       },
-      "component": {
-        "style": "styled-components"
-      },
-      "library": {
-        "style": "styled-components",
-        "linter": "eslint"
-      }
+      "component": { "style": "styled-components" },
+      "library": { "style": "styled-components", "linter": "eslint" }
     },
     "@nrwl/next": {
-      "application": {
-        "style": "styled-components",
-        "linter": "eslint"
-      }
+      "application": { "style": "styled-components", "linter": "eslint" }
     }
   },
   "projects": {
@@ -195,6 +187,31 @@
             "jestConfig": "libs/ui-toolkit/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": { "configFolder": "libs/ui-toolkit/.storybook" }
+          },
+          "configurations": { "ci": { "quiet": true } }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/ui-toolkit",
+            "config": { "configFolder": "libs/ui-toolkit/.storybook" }
+          },
+          "configurations": { "ci": { "quiet": true } }
+        },
+        "codegen": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn graphql-codegen --config libs/ui-toolkit/codegen.yml"
+          }
         }
       }
     },
@@ -210,16 +227,11 @@
             "root": "apps/admin-web",
             "outputPath": "dist/apps/admin-web"
           },
-          "configurations": {
-            "production": {}
-          }
+          "configurations": { "production": {} }
         },
         "serve": {
           "executor": "@nrwl/next:server",
-          "options": {
-            "buildTarget": "admin-web:build",
-            "dev": true
-          },
+          "options": { "buildTarget": "admin-web:build", "dev": true },
           "configurations": {
             "production": {
               "buildTarget": "admin-web:build:production",
@@ -229,9 +241,7 @@
         },
         "export": {
           "executor": "@nrwl/next:export",
-          "options": {
-            "buildTarget": "admin-web:build:production"
-          }
+          "options": { "buildTarget": "admin-web:build:production" }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",

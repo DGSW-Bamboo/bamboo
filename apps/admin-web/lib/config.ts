@@ -1,1 +1,1 @@
-export const SERVER = "서버";
+export const SERVER = "http://localhost:4200/graphql";

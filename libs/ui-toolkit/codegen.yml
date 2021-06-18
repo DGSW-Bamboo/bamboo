@@ -1,0 +1,14 @@
+schema:
+  - http://localhost:4200/graphql:
+      headers:
+        X-Introspection: 'true'
+generates:
+  libs/ui-toolkit/src/lib/graphql-types.ts:
+    hooks:
+      afterOneFileWrite:
+        - git add libs/ui-toolkit/src/lib/graphql-types.ts
+    plugins:
+      - typescript
+    config:
+      immutableTypes: true
+      namingConvention: keep
