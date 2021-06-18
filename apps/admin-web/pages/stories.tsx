@@ -1,8 +1,8 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { addApolloState, initializeApolloClient } from '../lib/apolliClient';
 import { GetServerSideProps } from 'next';
 import { StoryCard } from '@bamboo/ui-toolkit';
+import { useSsrQuery } from '../hooks/useSSRQuery';
 
 const QUERY = gql`
   query Stories {
@@ -34,12 +34,5 @@ export default function Stories () {
 }
 
 export const getServerSideProps: GetServerSideProps<{}, {}> = async () => {
-  const apolloClient = initializeApolloClient()
-  await apolloClient.query({
-    query: QUERY,
-  })
-
-  return addApolloState(apolloClient, {
-    props: {},
-  })
+  return useSsrQuery(QUERY);
 }
